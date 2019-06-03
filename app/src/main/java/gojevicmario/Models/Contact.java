@@ -1,17 +1,38 @@
 package gojevicmario.Models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class Contact {
+    @SerializedName("id")
     int Id;
+    @SerializedName("firstName")
     String FirstName;
+    @SerializedName("lastName")
     String LastName;
+    @SerializedName("address")
     String Address;
+    @SerializedName("city")
     String City;
+    @SerializedName("country")
     String Country;
+    @SerializedName("isBookmarked")
     boolean IsBookmarked;
     List<Number> Numbers;
     List<Email> Emails;
+
+    public Contact(int id, String firstName, String lastName, String address, String city, String country, boolean isBookmarked, List<Number> numbers, List<Email> emails) {
+        Id = id;
+        FirstName = firstName;
+        LastName = lastName;
+        Address = address;
+        City = city;
+        Country = country;
+        IsBookmarked = isBookmarked;
+        Numbers = numbers;
+        Emails = emails;
+    }
 
     public int getId() {
         return Id;
