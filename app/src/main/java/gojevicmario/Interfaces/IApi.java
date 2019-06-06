@@ -8,7 +8,7 @@ import retrofit2.http.GET;
 
 public interface IApi {
 
-    String BASE_URL ="http://localhost:5000/api/";
+    String BASE_URL ="http://zelenbic-001-site1.ftempurl.com/api/";
 
     @GET("contacts")
     Call<List<Contact>> getContacts();

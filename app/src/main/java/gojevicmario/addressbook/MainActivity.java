@@ -2,13 +2,17 @@ package gojevicmario.addressbook;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import gojevicmario.Adapters.RecyclerViewAdapter;
 import gojevicmario.Interfaces.IApi;
 import gojevicmario.Models.Contact;
 import retrofit2.Call;
@@ -20,13 +24,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
 
     ListView listView;
+    List<Contact> contacts;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        listView = findViewById(R.id.contactsList);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(IApi.BASE_URL)
@@ -40,20 +44,8 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<List<Contact>>() {
             @Override
             public void onResponse(Call<List<Contact>> call, Response<List<Contact>> response) {
-                List<Contact> contacts = response.body();
-
-                String[] contactNames = new String[contacts.size()];
-                for (int i=0 ;i <contacts.size(); i++){
-                    contactNames[i] = contacts.get(i).getFirstName() + contacts.get(i).getLastName();
-                }
-
-                listView.setAdapter(
-                        new ArrayAdapter<String>(
-                                getApplicationContext(),
-                                android.R.layout.simple_list_item_1,
-                                contactNames
-                        )
-                );
+                contacts = response.body();
+                initRecyclerView();
             }
 
             @Override
@@ -62,4 +54,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void initRecyclerView(){
+        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this,contacts);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
 }
