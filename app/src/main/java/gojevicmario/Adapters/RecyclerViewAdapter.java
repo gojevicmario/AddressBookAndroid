@@ -58,7 +58,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 //klik na item
                 Toast.makeText(mContext,Contacts.get(position).getCountry(),Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(mContext,DetailsActivity.class);
-                intent.putExtra("EXTRA_CONTACT_ID",Contacts.get(position).getId());
+                intent.putExtra("EXTRA_CONTACT_ID",String.valueOf(Contacts.get(position).getId()));
                 mContext.startActivity(intent);
             }
         });

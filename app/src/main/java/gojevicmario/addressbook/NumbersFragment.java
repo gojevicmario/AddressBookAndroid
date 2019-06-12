@@ -4,9 +4,28 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import gojevicmario.Adapters.EmailRecyclerViewAdapter;
+import gojevicmario.Adapters.RecyclerViewAdapter;
+import gojevicmario.Interfaces.IApi;
+import gojevicmario.Models.Contact;
+import gojevicmario.Models.Number;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 /**
@@ -22,6 +41,9 @@ public class NumbersFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_CONTACT_ID = "param1";
     private static final String ARG_PARAM2 = "param2";
+    ListView numbersListView;
+    ArrayAdapter<String> numbersAdapter;
+    IApi api;
 
     // TODO: Rename and change types of parameters
     private String contactId;
@@ -58,13 +80,43 @@ public class NumbersFragment extends Fragment {
             contactId = getArguments().getString(ARG_CONTACT_ID);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_numbers, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_numbers, container, false);
+        numbersListView = view.findViewById(R.id.listViewNumbers);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(IApi.BASE_URL)
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        api = retrofit.create(IApi.class);
+
+        Call<List<Number>> contactCall = api.getNumbers(contactId);
+        contactCall.enqueue(new Callback<List<Number>>() {
+            @Override
+            public void onResponse(Call<List<Number>> call, Response<List<Number>> response) {
+                String[] numbers = new String[response.body().size()];
+                for (int i=0; i < response.body().size(); i++){
+                    numbers[i] = response.body().get(i).getNumber() +"hide  " + response.body().get(i).getId();
+                }
+                //brojevi se dobro dohvate, nešto u adapteru je sjebano
+                numbersAdapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,numbers);
+                numbersListView.setAdapter(numbersAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<List<Number>> call, Throwable t) {
+
+            }
+        });
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -105,4 +157,6 @@ public class NumbersFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+
 }

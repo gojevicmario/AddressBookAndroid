@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     List<Contact> contactsList;
     RecyclerViewAdapter adapter;
+    Retrofit retrofit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         bookmarkSwitch = findViewById(R.id.bookmarkSwitch);
         contactsList = new ArrayList<Contact>();
 
-        Retrofit retrofit = new Retrofit.Builder()
+        retrofit = new Retrofit.Builder()
                 .baseUrl(IApi.BASE_URL)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
@@ -100,4 +101,5 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
+
 }
