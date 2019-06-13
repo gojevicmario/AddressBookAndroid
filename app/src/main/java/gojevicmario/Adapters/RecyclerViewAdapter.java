@@ -62,6 +62,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 mContext.startActivity(intent);
             }
         });
+
+        holder.isBookmarked
+
     }
 
     @Override
@@ -78,6 +81,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             txt_DisplayName = itemView.findViewById(R.id.txt_DisplayName);
             isBookmarked = itemView.findViewById(R.id.isBookmarked);
             parentLayout = itemView.findViewById(R.id.parent_layout);
+
         }
     }
 }

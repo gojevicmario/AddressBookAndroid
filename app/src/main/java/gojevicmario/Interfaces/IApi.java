@@ -7,7 +7,11 @@ import gojevicmario.Models.Email;
 import gojevicmario.Models.Number;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface IApi {
@@ -25,4 +29,13 @@ public interface IApi {
 
     @GET("emails/{id}")
     Call<List<Email>> getEmails(@Path("id") String id);
+
+    @DELETE("emails/{contactId}/{id}")
+    Call<ResponseBody> deleteEmail(@Path("contactId") String contactId,@Path("id") String id);
+
+    @PUT("emails/{contactId}/{id}")
+    Call<ResponseBody> editEmail(@Path("contactId") String contactId,@Path("id") String id, @Body Email email);
+
+    @POST("emails/{contactId}/{id}")
+    Call<ResponseBody> createEmail(@Path("contactId") String contactId,@Path("id") String id, @Body Email email);
 }

@@ -1,5 +1,6 @@
 package gojevicmario.addressbook;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -18,6 +19,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.TextView;
+import android.widget.Toast;
+
+import gojevicmario.Models.Email;
 
 public class DetailsActivity extends AppCompatActivity {
 
@@ -29,18 +33,21 @@ public class DetailsActivity extends AppCompatActivity {
      * may be best to switch to a
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
-    private SectionsPagerAdapter mSectionsPagerAdapter;
+
 
     /**
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
     private String ContactId;
+    private SectionsPagerAdapter mSectionsPagerAdapter;
+    FloatingActionButton fab;
+
+    Intent createIntent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
-
         ContactId = getIntent().getStringExtra("EXTRA_CONTACT_ID");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -54,18 +61,9 @@ public class DetailsActivity extends AppCompatActivity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
     }
 
@@ -101,6 +99,7 @@ public class DetailsActivity extends AppCompatActivity {
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
+        FloatingActionButton fab;
 
         public PlaceholderFragment() {
         }
@@ -122,6 +121,7 @@ public class DetailsActivity extends AppCompatActivity {
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_details, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+
             return rootView;
         }
     }

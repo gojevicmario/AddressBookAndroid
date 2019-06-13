@@ -2,15 +2,23 @@ package gojevicmario.Models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Email {
+import java.io.Serializable;
+
+public class Email implements Serializable {
     @SerializedName("id")
     int Id;
+    @SerializedName("contactId")
+    int ContactId;
     @SerializedName("emailAddress")
     String EmailAddress;
 
-    public Email(int id, String emailAddress) {
+    public Email(int id, String emailAddress, int contactId) {
         Id = id;
         EmailAddress = emailAddress;
+        ContactId = contactId;
+    }
+    public Email(){
+
     }
 
     public int getId() {
@@ -24,4 +32,6 @@ public class Email {
     public String getEmailAddress() {
         return EmailAddress;
     }
+
+    public int getContactId(){ return ContactId;}
 }
