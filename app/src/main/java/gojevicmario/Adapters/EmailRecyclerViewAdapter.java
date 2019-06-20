@@ -3,6 +3,7 @@ package gojevicmario.Adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
@@ -46,9 +47,19 @@ public class EmailRecyclerViewAdapter extends RecyclerView.Adapter<EmailRecycler
         holder.emailParentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent sendIntent = new Intent(Intent.ACTION_SENDTO);
+                sendIntent.setData(Uri.parse("mailto:" + emails.get(position).getEmailAddress()));
+                mContext.startActivity(sendIntent);
+
+            }
+        });
+        holder.emailParentLayout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
                 Intent editIntent = new Intent(mContext, BasicEditActivity.class);
                 editIntent.putExtra("Email",emails.get(position));
                 mContext.startActivity(editIntent);
+                return true;
             }
         });
     }

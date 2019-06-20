@@ -1,6 +1,7 @@
 package gojevicmario.addressbook;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,9 +9,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,7 +90,6 @@ public class NumbersFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_numbers, container, false);
         numbersListView = view.findViewById(R.id.listViewNumbers);
         Retrofit retrofit = new Retrofit.Builder()
@@ -101,14 +103,26 @@ public class NumbersFragment extends Fragment {
         Call<List<Number>> contactCall = api.getNumbers(contactId);
         contactCall.enqueue(new Callback<List<Number>>() {
             @Override
-            public void onResponse(Call<List<Number>> call, Response<List<Number>> response) {
-                String[] numbers = new String[response.body().size()];
+            public void onResponse(final Call<List<Number>> call, Response<List<Number>> response) {
+                final String[] numbers = new String[response.body().size()];
                 for (int i=0; i < response.body().size(); i++){
-                    numbers[i] = response.body().get(i).getNumber() +"hide  " + response.body().get(i).getId();
+                    numbers[i] = response.body().get(i).getNumber();
                 }
                 //brojevi se dobro dohvate, nešto u adapteru je sjebano
                 numbersAdapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,numbers);
+                numbersListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+                {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapter, View v, int position,
+                                            long arg3)
+                    {
+                        Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                        callIntent.setData(Uri.parse("tel:" + numbers[position]));
+                        startActivity(callIntent);
+                    }
+                });
                 numbersListView.setAdapter(numbersAdapter);
+
             }
 
             @Override
