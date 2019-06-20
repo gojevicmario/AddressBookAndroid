@@ -87,20 +87,6 @@ public class BasicEditActivity extends AppCompatActivity {
                     });
 
                 }
-                else {
-                    api.createEmail(String.valueOf(emailToEdit.getContactId()),String.valueOf(emailToEdit.getId()),emailToEdit).enqueue(new Callback<ResponseBody>() {
-                        @Override
-                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                            Toast.makeText(getBaseContext(),"Uspjesno dodano",Toast.LENGTH_SHORT);
-                            finish();
-                        }
-
-                        @Override
-                        public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-                        }
-                    });
-                }
                 }
 
         });

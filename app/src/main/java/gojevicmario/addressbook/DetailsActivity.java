@@ -21,6 +21,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
+
 import gojevicmario.Models.Email;
 
 public class DetailsActivity extends AppCompatActivity {
@@ -129,12 +131,23 @@ public class DetailsActivity extends AppCompatActivity {
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_details, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-
             return rootView;
         }
     }
     public void FabCLick(View view){
-        Toast.makeText(this , "Fab clicked",Toast.LENGTH_SHORT).show();
+        if(mViewPager.getCurrentItem() == 0) {
+            //Stvori broj
+
+
+        }
+        else {
+            //stvori email
+            // DOdaj još jedan extra u intent koji govori dodaje li se broj ili email
+            // za sada puca na drugom saveu 
+            Intent intent = new Intent(this, BasicCreateActivity.class);
+            intent.putExtra("ContactId",ContactId);
+            this.startActivity(intent);
+        }
     }
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -159,5 +172,15 @@ public class DetailsActivity extends AppCompatActivity {
             // Show 3 total pages.
             return 2;
         }
+    }
+    Fragment getCurrentFragment()
+    {
+        FragmentManager fragmentManager = this.getSupportFragmentManager();
+        List<Fragment> fragments = fragmentManager.getFragments();
+        for (Fragment fragment : fragments) {
+            if (fragment != null && fragment.isVisible())
+                return fragment;
+        }
+        return null;
     }
 }

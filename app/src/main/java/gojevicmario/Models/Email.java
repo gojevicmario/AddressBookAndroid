@@ -17,6 +17,12 @@ public class Email implements Serializable {
         EmailAddress = emailAddress;
         ContactId = contactId;
     }
+
+    public Email(int contactId, String emailAddress) {
+        ContactId = contactId;
+        EmailAddress = emailAddress;
+    }
+
     public Email(){
 
     }

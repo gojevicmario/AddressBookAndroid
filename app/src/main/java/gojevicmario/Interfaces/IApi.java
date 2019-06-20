@@ -36,6 +36,6 @@ public interface IApi {
     @PUT("emails/{contactId}/{id}")
     Call<ResponseBody> editEmail(@Path("contactId") String contactId,@Path("id") String id, @Body Email email);
 
-    @POST("emails/{contactId}/{id}")
-    Call<ResponseBody> createEmail(@Path("contactId") String contactId,@Path("id") String id, @Body Email email);
+    @POST("emails/{contactId}")
+    Call<ResponseBody> createEmail(@Path("contactId") String contactId, @Body Email email);
 }
