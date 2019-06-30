@@ -86,6 +86,12 @@ public class EmailsFragment extends Fragment {
     }
 
     @Override
+    public void onResume(){
+        super.onResume();
+        getData();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -100,19 +106,7 @@ public class EmailsFragment extends Fragment {
                 .build();
 
         api = retrofit.create(IApi.class);
-        api.getEmails(contactId).enqueue(new Callback<List<Email>>() {
-            @Override
-            public void onResponse(Call<List<Email>> call, Response<List<Email>> response) {
-                emailList = response.body();
-                emailRecyclerViewAdapter = new EmailRecyclerViewAdapter(getContext(),emailList);
-                emailRecyclerView.setAdapter(emailRecyclerViewAdapter);
-            }
-
-            @Override
-            public void onFailure(Call<List<Email>> call, Throwable t) {
-
-            }
-        });
+        getData();
         return EmailView;
     }
 
@@ -155,4 +149,19 @@ public class EmailsFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
+    private void getData(){
+        api.getEmails(contactId).enqueue(new Callback<List<Email>>() {
+            @Override
+            public void onResponse(Call<List<Email>> call, Response<List<Email>> response) {
+                emailList = response.body();
+                emailRecyclerViewAdapter = new EmailRecyclerViewAdapter(getContext(),emailList);
+                emailRecyclerView.setAdapter(emailRecyclerViewAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<List<Email>> call, Throwable t) {
+
+            }
+        });
+    }
 }

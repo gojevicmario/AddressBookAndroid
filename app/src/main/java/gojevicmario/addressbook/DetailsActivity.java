@@ -61,7 +61,7 @@ public class DetailsActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-    fab = findViewById(R.id.fab);
+        fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,7 +74,6 @@ public class DetailsActivity extends AppCompatActivity {
 
 
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -145,7 +144,8 @@ public class DetailsActivity extends AppCompatActivity {
             // DOdaj još jedan extra u intent koji govori dodaje li se broj ili email
             // za sada puca na drugom saveu 
             Intent intent = new Intent(this, BasicCreateActivity.class);
-            intent.putExtra("ContactId",ContactId);
+            intent.putExtra("contactId",ContactId);
+            intent.putExtra("type","email");
             this.startActivity(intent);
         }
     }

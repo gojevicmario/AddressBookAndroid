@@ -12,6 +12,10 @@ import android.widget.Toast;
 import gojevicmario.Interfaces.IApi;
 import gojevicmario.Models.Email;
 import gojevicmario.Models.Number;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -22,7 +26,6 @@ public class BasicCreateActivity extends AppCompatActivity {
     Button btnCancel;
     TextView editLabel;
     EditText editData;
-    String contactIdFk;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +36,13 @@ public class BasicCreateActivity extends AppCompatActivity {
         btnCancel = findViewById(R.id.btnCancel);
         btnSave = findViewById(R.id.btnSave);
 
-        contactIdFk = (String) getIntent().getSerializableExtra("contactId");
+        final String contactIdFk = (String) getIntent().getSerializableExtra("contactId");
+        final String type = (String) getIntent().getSerializableExtra("type");
+
+        if(type.equals("email"))
+            editLabel.setText("Email");
+        else
+            editLabel.setText("Number");
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(IApi.BASE_URL)
@@ -46,9 +55,23 @@ public class BasicCreateActivity extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Email emailToCreate = new Email(Integer.getInteger(contactIdFk) ,editData.getText().toString());
-                api.createEmail(contactIdFk,emailToCreate);
-                Toast.makeText(BasicCreateActivity.this, "Email kreiran", Toast.LENGTH_SHORT).show();
+                if(type.equals("email")){
+
+                    Email emailToCreate = new Email(Integer.parseInt(contactIdFk) ,editData.getText().toString());
+                    api.createEmail(contactIdFk,emailToCreate).enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            Toast.makeText(BasicCreateActivity.this, "Email kreiran", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                        }
+                    });
+
+                }
             }
         });
     }

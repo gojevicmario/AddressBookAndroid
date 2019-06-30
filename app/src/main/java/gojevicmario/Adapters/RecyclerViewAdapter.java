@@ -55,15 +55,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //klik na item
-                Toast.makeText(mContext,Contacts.get(position).getCountry(),Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(mContext,DetailsActivity.class);
                 intent.putExtra("EXTRA_CONTACT_ID",String.valueOf(Contacts.get(position).getId()));
                 mContext.startActivity(intent);
             }
         });
 
-        holder.isBookmarked
+        //holder.isBookmarked
 
     }
 

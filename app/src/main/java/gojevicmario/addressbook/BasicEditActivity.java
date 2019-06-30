@@ -77,7 +77,7 @@ public class BasicEditActivity extends AppCompatActivity {
                     api.editEmail(String.valueOf(emailToEdit.getContactId()),String.valueOf(emailToEdit.getId()),emailToEdit).enqueue(new Callback<ResponseBody>() {
                         @Override
                         public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                            Toast.makeText(BasicEditActivity.this, "Bravo na updejtu", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(BasicEditActivity.this, "Promjenjeno", Toast.LENGTH_SHORT).show();
                             finish();
                         }
 
@@ -98,7 +98,7 @@ public class BasicEditActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         response.body();
-                        Toast.makeText(BasicEditActivity.this, "Good job mate", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(BasicEditActivity.this, "Izbrisano", Toast.LENGTH_SHORT).show();
                         finish();
                     }
 
