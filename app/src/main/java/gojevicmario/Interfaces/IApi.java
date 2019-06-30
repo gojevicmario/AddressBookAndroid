@@ -33,9 +33,18 @@ public interface IApi {
     @DELETE("emails/{contactId}/{id}")
     Call<ResponseBody> deleteEmail(@Path("contactId") String contactId,@Path("id") String id);
 
+    @DELETE("numbers/{contactId}/{id}")
+    Call<ResponseBody> deleteNumber(@Path("contactId") String contactId,@Path("id") String id);
+
     @PUT("emails/{contactId}/{id}")
     Call<ResponseBody> editEmail(@Path("contactId") String contactId,@Path("id") String id, @Body Email email);
 
+    @PUT("numbers/{contactId}/{id}")
+    Call<ResponseBody> editNumber(@Path("contactId") String contactId,@Path("id") String id, @Body Number number);
+
     @POST("emails/{contactId}")
     Call<ResponseBody> createEmail(@Path("contactId") String contactId, @Body Email email);
+
+    @POST("numbers/{contactId}")
+    Call<ResponseBody> createNumber(@Path("contactId") String contactId, @Body Number number);
 }

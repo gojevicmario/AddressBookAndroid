@@ -72,6 +72,21 @@ public class BasicCreateActivity extends AppCompatActivity {
                     });
 
                 }
+                else {
+                    Number numberToCreate = new Number(Integer.parseInt(contactIdFk),editData.getText().toString());
+                    api.createNumber(contactIdFk,numberToCreate).enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            Toast.makeText(BasicCreateActivity.this, "Broj kreiran", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                        }
+                    });
+                }
             }
         });
     }

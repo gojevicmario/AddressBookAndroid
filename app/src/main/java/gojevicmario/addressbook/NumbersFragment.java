@@ -43,14 +43,12 @@ public class NumbersFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_CONTACT_ID = "param1";
-    private static final String ARG_PARAM2 = "param2";
     ListView numbersListView;
     ArrayAdapter<String> numbersAdapter;
     IApi api;
 
     // TODO: Rename and change types of parameters
     private String contactId;
-    private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
@@ -71,7 +69,6 @@ public class NumbersFragment extends Fragment {
         NumbersFragment fragment = new NumbersFragment();
         Bundle args = new Bundle();
         args.putString(ARG_CONTACT_ID, contactId);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -81,10 +78,15 @@ public class NumbersFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             contactId = getArguments().getString(ARG_CONTACT_ID);
-            mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
 
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        getData();
     }
 
     @Override
@@ -99,37 +101,7 @@ public class NumbersFragment extends Fragment {
                 .build();
 
         api = retrofit.create(IApi.class);
-
-        Call<List<Number>> contactCall = api.getNumbers(contactId);
-        contactCall.enqueue(new Callback<List<Number>>() {
-            @Override
-            public void onResponse(final Call<List<Number>> call, Response<List<Number>> response) {
-                final String[] numbers = new String[response.body().size()];
-                for (int i=0; i < response.body().size(); i++){
-                    numbers[i] = response.body().get(i).getNumber();
-                }
-                //brojevi se dobro dohvate, nešto u adapteru je sjebano
-                numbersAdapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,numbers);
-                numbersListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-                {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapter, View v, int position,
-                                            long arg3)
-                    {
-                        Intent callIntent = new Intent(Intent.ACTION_DIAL);
-                        callIntent.setData(Uri.parse("tel:" + numbers[position]));
-                        startActivity(callIntent);
-                    }
-                });
-                numbersListView.setAdapter(numbersAdapter);
-
-            }
-
-            @Override
-            public void onFailure(Call<List<Number>> call, Throwable t) {
-
-            }
-        });
+        getData();
         return view;
     }
 
@@ -172,5 +144,53 @@ public class NumbersFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
+    private void getData(){
+        api.getNumbers(contactId).enqueue(new Callback<List<Number>>() {
+            @Override
+            public void onResponse(final Call<List<Number>> call, Response<List<Number>> response) {
+                final String[] numbers = new String[response.body().size()];
+                final int[] ids = new int[response.body().size()];
+                for (int i=0; i < response.body().size(); i++){
+                    numbers[i] = response.body().get(i).getNumber();
+                    ids[i] = response.body().get(i).getId();
+                }
+                numbersAdapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,numbers);
+                numbersListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+                {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapter, View v, int position,
+                                            long arg3)
+                    {
+                        Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                        callIntent.setData(Uri.parse("tel:" + numbers[position]));
+                        startActivity(callIntent);
+                    }
+
+                });
+                numbersListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+                    @Override
+                    public boolean onItemLongClick(AdapterView<?> parent, View view,
+                                                   int position, long arg3) {
+
+                        Toast.makeText(getContext(), "Long click", Toast.LENGTH_SHORT).show();
+                        Intent editIntent = new Intent(getContext(), BasicEditActivity.class);
+                        Number numberToSend = new Number(Integer.parseInt(contactId),ids[position],numbers[position] );
+                        editIntent.putExtra("Number", numberToSend);
+                        getContext().startActivity(editIntent);
+                        return true;
+                    }
+
+                });
+                numbersListView.setAdapter(numbersAdapter);
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Number>> call, Throwable t) {
+
+            }
+        });
+    }
 
 }

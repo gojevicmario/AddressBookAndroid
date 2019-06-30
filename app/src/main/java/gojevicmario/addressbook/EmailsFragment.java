@@ -39,11 +39,8 @@ public class EmailsFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_CONTACT_ID = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
     // TODO: Rename and change types of parameters
     private String contactId;
-    private String mParam2;
 
     private OnFragmentInteractionListener mListener;
     private List<Email> emailList;
@@ -71,7 +68,6 @@ public class EmailsFragment extends Fragment {
         EmailsFragment fragment = new EmailsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_CONTACT_ID, contactId);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -81,7 +77,6 @@ public class EmailsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             contactId = getArguments().getString(ARG_CONTACT_ID);
-            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 

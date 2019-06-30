@@ -1,34 +1,18 @@
 package gojevicmario.addressbook;
 
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
-import android.widget.ListView;
 import android.widget.Switch;
-import android.widget.Toast;
-
-import com.google.common.base.Predicates;
-import com.google.common.collect.Collections2;
-import com.google.common.collect.Iterables;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import gojevicmario.Adapters.RecyclerViewAdapter;
-import gojevicmario.Helpers.ApiHelper;
 import gojevicmario.Interfaces.IApi;
 import gojevicmario.Models.Contact;
-import io.reactivex.CompletableTransformer;
-import io.reactivex.Flowable;
-import io.reactivex.Observer;
-import io.reactivex.Scheduler;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -38,7 +22,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
     Switch bookmarkSwitch;
-    ApiHelper apiHelper = new ApiHelper();
     IApi api;
     RecyclerView recyclerView;
     List<Contact> contactsList;
