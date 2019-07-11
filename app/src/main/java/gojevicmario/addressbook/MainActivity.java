@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    private void getAllContacts(){
+    public void getAllContacts(){
         Call<List<Contact>> allContactsCall = api.getContacts();
                 allContactsCall.enqueue(new Callback<List<Contact>>() {
                     @Override

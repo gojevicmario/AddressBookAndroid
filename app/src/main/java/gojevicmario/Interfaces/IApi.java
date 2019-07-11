@@ -24,6 +24,12 @@ public interface IApi {
     @GET("contacts/{id}")
     Call<Contact> getContact(@Path("id") String id);
 
+    @POST("contacts")
+    Call<ResponseBody> createContact(@Body Contact contact);
+
+    @DELETE("contacts/{id}")
+    Call<ResponseBody> deleteContact(@Path("id") String id);
+
     @GET("numbers/{id}")
     Call<List<Number>> getNumbers(@Path("id") String id);
 
