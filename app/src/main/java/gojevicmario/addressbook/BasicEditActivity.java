@@ -54,10 +54,10 @@ public class BasicEditActivity extends AppCompatActivity {
         emailToEdit = (Email) getIntent().getSerializableExtra("Email");
         numberToEdit = (Number) getIntent().getSerializableExtra("Number");
         if(numberToEdit != null){
-            //editaj broj
+            editLabel.setText("Number");
+            editData.setText(numberToEdit.getNumber());
         }
         else {
-            //editaj email
             editLabel.setText("Email");
             editData.setText(emailToEdit.getEmailAddress());
         }
@@ -72,41 +72,75 @@ public class BasicEditActivity extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                emailToEdit.setEmailAddress(editData.getText().toString());
-                if(emailToEdit.getId() > 0){
-                    api.editEmail(String.valueOf(emailToEdit.getContactId()),String.valueOf(emailToEdit.getId()),emailToEdit).enqueue(new Callback<ResponseBody>() {
-                        @Override
-                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                            Toast.makeText(BasicEditActivity.this, "Bravo na updejtu", Toast.LENGTH_SHORT).show();
-                            finish();
-                        }
+                if(editLabel.getText().equals("Email")){
+                    emailToEdit.setEmailAddress(editData.getText().toString());
+                    if(emailToEdit.getId() > 0){
+                        api.editEmail(String.valueOf(emailToEdit.getContactId()),String.valueOf(emailToEdit.getId()),emailToEdit).enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                Toast.makeText(BasicEditActivity.this, "Promjenjeno", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
 
-                        @Override
-                        public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        }
-                    });
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            }
+                        });
+                    }
+                }
+                else {
+                    numberToEdit.setNumber(editData.getText().toString());
+                    if(numberToEdit.getContactId() > 0){
+                        api.editNumber(String.valueOf(numberToEdit.getContactId()),String.valueOf(numberToEdit.getId()),numberToEdit).enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                Toast.makeText(BasicEditActivity.this, "Promjenjeno", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
 
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            }
+                        });
+                    }
                 }
-                }
+            }
+
 
         });
 
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                api.deleteEmail(String.valueOf(emailToEdit.getContactId()),String.valueOf(emailToEdit.getId())).enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        response.body();
-                        Toast.makeText(BasicEditActivity.this, "Good job mate", Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
+                if(editLabel.getText().equals("Email")) {
+                    api.deleteEmail(String.valueOf(emailToEdit.getContactId()), String.valueOf(emailToEdit.getId())).enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            response.body();
+                            Toast.makeText(BasicEditActivity.this, "Izbrisano", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
 
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
 
-                    }
-                });
+                        }
+                    });
+                }else {
+                    api.deleteNumber(String.valueOf(numberToEdit.getContactId()), String.valueOf(numberToEdit.getId())).enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            response.body();
+                            Toast.makeText(BasicEditActivity.this, "Izbrisano", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                        }
+                    });
+                }
             }
         });
     }

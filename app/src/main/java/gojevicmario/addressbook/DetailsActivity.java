@@ -61,7 +61,7 @@ public class DetailsActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-    fab = findViewById(R.id.fab);
+        fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,10 +71,7 @@ public class DetailsActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
-
-
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -136,16 +133,15 @@ public class DetailsActivity extends AppCompatActivity {
     }
     public void FabCLick(View view){
         if(mViewPager.getCurrentItem() == 0) {
-            //Stvori broj
-
-
+            Intent intent = new Intent(this, BasicCreateActivity.class);
+            intent.putExtra("contactId",ContactId);
+            intent.putExtra("type","number");
+            this.startActivity(intent);
         }
         else {
-            //stvori email
-            // DOdaj još jedan extra u intent koji govori dodaje li se broj ili email
-            // za sada puca na drugom saveu 
             Intent intent = new Intent(this, BasicCreateActivity.class);
-            intent.putExtra("ContactId",ContactId);
+            intent.putExtra("contactId",ContactId);
+            intent.putExtra("type","email");
             this.startActivity(intent);
         }
     }
