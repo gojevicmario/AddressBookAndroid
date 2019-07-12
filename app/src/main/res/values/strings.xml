@@ -11,4 +11,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="Numbers">Numbers</string>
     <string name="Emails">Emails</string>
+    <string name="title_activity_create_contact">createContactActivity</string>
 </resources>

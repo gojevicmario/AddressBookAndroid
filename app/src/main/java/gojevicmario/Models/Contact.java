@@ -34,6 +34,20 @@ public class Contact {
         Emails = emails;
     }
 
+    public Contact(String firstName, String lastName) {
+        FirstName = firstName;
+        LastName = lastName;
+    }
+
+    public Contact(String firstName, String lastName, String address, String city, String country, boolean isBookmarked) {
+        FirstName = firstName;
+        LastName = lastName;
+        Address = address;
+        City = city;
+        Country = country;
+        IsBookmarked = isBookmarked;
+    }
+
     public int getId() {
         return Id;
     }

@@ -12,7 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".BasicCreateActivity"></activity>
+        <activity
+            android:name=".createContactActivity"
+            android:label="@string/title_activity_create_contact"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".BasicCreateActivity" />
         <activity android:name=".BasicEditActivity" />
         <activity
             android:name=".DetailsActivity"

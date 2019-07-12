@@ -13,13 +13,14 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface IApi {
 
     public String BASE_URL ="http://zelenbic-001-site1.ftempurl.com/api/";
 
     @GET("contacts")
-    Call<List<Contact>> getContacts();
+    Call<List<Contact>> getContacts(@Query("pageSize") int pageSize);
 
     @GET("contacts/{id}")
     Call<Contact> getContact(@Path("id") String id);
